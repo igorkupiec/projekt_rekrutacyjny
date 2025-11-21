@@ -12,6 +12,7 @@ find_package(geometry_msgs REQUIRED)
 
 add_executable(joy_to_twist_node src/joy_to_twist_node.cpp)
 add_executable(joy_to_twist_sub src/joy_to_twist_sub.cpp)
+add_executable(joy_to_twist_tui src/joy_to_twist_tui.cpp)
 
 ament_target_dependencies(joy_to_twist_node 
   rclcpp 
@@ -23,8 +24,13 @@ ament_target_dependencies(joy_to_twist_sub
   sensor_msgs 
   geometry_msgs
 )
+ament_target_dependencies(joy_to_twist_tui
+  rclcpp 
+  sensor_msgs 
+  geometry_msgs
+)
 
-install(TARGETS joy_to_twist_node joy_to_twist_sub
+install(TARGETS joy_to_twist_node joy_to_twist_sub joy_to_twist_tui
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
