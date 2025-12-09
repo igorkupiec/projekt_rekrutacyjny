@@ -32,12 +32,10 @@ void joy_to_twist_tui::drazek_tui(double xl, double yl, double xr, double yr, in
     int r = (int)(h / 2.5);  
     if (r == 0) r = 1; 
 
-
-    //
+    //radius of inner circle
     int rd_linear = r / 5; 
     double rd_sq = (double)rd_linear * rd_linear; 
-
-    //
+    //limits of inner circle
     double r_sq_max = (double)r * r + 20.0;
     double r_sq_min = (double)r * r - 80.0;
 
@@ -57,27 +55,23 @@ void joy_to_twist_tui::drazek_tui(double xl, double yl, double xr, double yr, in
         for (int jx = 0; jx < w; jx++) {
             double dy = (iy - cy) * 2.0;
             
-            // Lewy glowny okrag 
             // Left main circle
             double l_dx = (jx - l_cx);
             double l_d_sq = l_dx*l_dx + dy*dy; 
-            // Right main circle
             // Prawy glowny okrag
             double r_dx = (jx - r_cx);
             double r_d_sq = r_dx*r_dx + dy*dy;
-            // Left inner circle
             // Lewa kropka 
             double l_dyd = (iy - y2) * 2.0; 
             double l_dxd = (jx - x2);
             double l_dd_sq = l_dxd*l_dxd + l_dyd*l_dyd;
-            // Right inner circle
             // Prawa kropka 
             double r_dyd = (iy - y3) * 2.0; 
             double r_dxd = (jx - x3);
             double r_dd_sq = r_dxd*r_dxd + r_dyd*r_dyd;
             //which half of the screen
             bool polowa = (jx < w/2);
-
+            
             if(polowa){
                 if (l_dd_sq <= rd_sq) {
                     klatka += "@"; 

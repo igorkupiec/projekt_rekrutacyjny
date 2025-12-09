@@ -11,7 +11,7 @@ joy_to_twist_node::joy_to_twist_node()
     subscription_ = this->create_subscription<sensor_msgs::msg::Joy>("joy", 10, std::bind(&joy_to_twist_node::callbackfunction, this, _1));
     // create publisher for "input_pada" topic
     publisher_ = this->create_publisher<geometry_msgs::msg::TwistStamped>("input_pada", 10);
-    //
+    // create publisher for "robot_velocity" topic
     publisher_velocity_ = this -> create_publisher<geometry_msgs::msg::TwistStamped>("robot_velocity", 10);
     // create timer for checking if joy node is working
     timer_ = this->create_wall_timer(500ms, std::bind(&joy_to_twist_node::check_joy, this));
@@ -29,7 +29,6 @@ void joy_to_twist_node::check_joy(){
 void joy_to_twist_node::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr msg){
     //info -> joy node sends data
     RCLCPP_INFO_ONCE(this->get_logger(), "Przesylam dane z joy_node");
-    //ostatni czas wywolania funkcji
     //last function callback time
     last_callback_time = this->now();
 
@@ -41,7 +40,6 @@ void joy_to_twist_node::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr 
     twist_velocity.header.stamp = this->get_clock()->now();
 
     if(msg->axes.size() >= 4){
-      //lewa galka
       //left stick
       twist_stamped_msg.twist.angular.x = msg->axes[0]*-1;
       twist_stamped_msg.twist.angular.y = msg->axes[1];
@@ -63,12 +61,10 @@ void joy_to_twist_node::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr 
         twist_velocity.twist.angular.z = rvelocity * -1;
       }
       
-      //prawa galka
       //right stick
       twist_stamped_msg.twist.linear.x = msg->axes[2]*-1;
       twist_stamped_msg.twist.linear.y = msg->axes[3];        
     }
-    //publikuje temat twiststamped wiadomosci
     //publishes TwistStamped msg to "input_pada" topic
     publisher_ -> publish(twist_stamped_msg);
 
