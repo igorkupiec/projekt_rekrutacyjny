@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[]){
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<joy_to_twist_sub>());
+    rclcpp::spin(std::make_shared<joyToTwistSub>());
     rclcpp::shutdown();
     return 0;
 }

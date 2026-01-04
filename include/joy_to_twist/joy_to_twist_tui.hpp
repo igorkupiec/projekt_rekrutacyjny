@@ -8,9 +8,9 @@
 #include <iostream>
 #include <math.h>
 
-class joy_to_twist_tui: public rclcpp::Node{
+class joyToTwistTui: public rclcpp::Node{
     public:
-        joy_to_twist_tui();
+        joyToTwistTui();
     
     private:
         void callbackfunction(const geometry_msgs::msg::TwistStamped::SharedPtr msg);

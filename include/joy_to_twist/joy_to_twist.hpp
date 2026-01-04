@@ -4,9 +4,9 @@
 #include "sensor_msgs/msg/joy.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
 
-class joy_to_twist_node: public rclcpp::Node{
+class joyToTwistNode: public rclcpp::Node{
     public: 
-        joy_to_twist_node();
+        joyToTwistNode();
 
     private:
         void check_joy();

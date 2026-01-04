@@ -3,30 +3,40 @@
 using namespace std::chrono_literals;
 using std::placeholders::_1;
 
-joy_to_twist_node::joy_to_twist_node()
+joyToTwistNode::joyToTwistNode()
     :Node("joy_to_twist_node"){
+    // Declare parameters
+    this->declare_parameter<std::string>("joy_topic", "joy");
+    this->declare_parameter<std::string>("input_topic", "input_pada");
+    this->declare_parameter<std::string>("vel_topic", "robot_velocity");
+
+    // Get the parameters
+    std::string joy_t = this->get_parameter("joy_topic").as_string();
+    std::string input_t = this->get_parameter("input_topic").as_string();
+    std::string vel_t = this->get_parameter("vel_topic").as_string();
+
     // getting last callback time 
     last_callback_time = this->now();
     // create subscription to joy topic
-    subscription_ = this->create_subscription<sensor_msgs::msg::Joy>("joy", 10, std::bind(&joy_to_twist_node::callbackfunction, this, _1));
+    subscription_ = this->create_subscription<sensor_msgs::msg::Joy>(joy_t, 10, std::bind(&joyToTwistNode::callbackfunction, this, _1));
     // create publisher for "input_pada" topic
-    publisher_ = this->create_publisher<geometry_msgs::msg::TwistStamped>("input_pada", 10);
+    publisher_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(input_t, 10);
     // create publisher for "robot_velocity" topic
-    publisher_velocity_ = this -> create_publisher<geometry_msgs::msg::TwistStamped>("robot_velocity", 10);
+    publisher_velocity_ = this -> create_publisher<geometry_msgs::msg::TwistStamped>(vel_t, 10);
     // create timer for checking if joy node is working
-    timer_ = this->create_wall_timer(500ms, std::bind(&joy_to_twist_node::check_joy, this));
+    timer_ = this->create_wall_timer(500ms, std::bind(&joyToTwistNode::check_joy, this));
 };
 
 
 // check_joy -> if joy node doesnt send any data for more than 0.1s function outputs info
-void joy_to_twist_node::check_joy(){
+void joyToTwistNode::check_joy(){
     auto time_diff = this->now() - last_callback_time;
       if(time_diff.seconds() > 0.1){
         RCLCPP_WARN(this->get_logger(), "joy_node nie wysyla inputow");
       }
 }
 
-void joy_to_twist_node::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr msg){
+void joyToTwistNode::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr msg){
     //info -> joy node sends data
     RCLCPP_INFO_ONCE(this->get_logger(), "Przesylam dane z joy_node");
     //last function callback time

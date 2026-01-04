@@ -5,14 +5,14 @@
 
 using std::placeholders::_1;
 
-joy_to_twist_tui::joy_to_twist_tui()
+joyToTwistTui::joyToTwistTui()
     :Node("joy_to_twist_tui"){
     //subscribe to "input_pada" topic
     subscription_ = this->create_subscription<geometry_msgs::msg::TwistStamped>(
-        "input_pada", 10, std::bind(&joy_to_twist_tui::callbackfunction, this, _1));
+        "input_pada", 10, std::bind(&joyToTwistTui::callbackfunction, this, _1));
 }
 
-void joy_to_twist_tui::callbackfunction(const geometry_msgs::msg::TwistStamped::SharedPtr msg){
+void joyToTwistTui::callbackfunction(const geometry_msgs::msg::TwistStamped::SharedPtr msg){
     //get window size of terminal
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     double lx = msg->twist.angular.x;
@@ -23,7 +23,7 @@ void joy_to_twist_tui::callbackfunction(const geometry_msgs::msg::TwistStamped::
     drazek_tui(lx, ly, rx, ry, w.ws_row, w.ws_col);
 }
 
-void joy_to_twist_tui::drazek_tui(double xl, double yl, double xr, double yr, int h, int w){
+void joyToTwistTui::drazek_tui(double xl, double yl, double xr, double yr, int h, int w){
     //create frame
     std::string klatka;
     klatka += "\033[H";

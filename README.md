@@ -1,13 +1,49 @@
-Joy to Twist
+# Joy to Twist
 
-Project Description This project controls a robot using a gamepad. It turns controller inputs into speed commands for the robot.
+ROS 2 package for robot teleoperation via gamepad.
 
-Controls Left Stick: Linear velocity (Forward / Backward) Right Stick: Angular velocity (Rotate Left / Right)
+## Overview
+Converts gamepad axes into `TwistStamped` velocity commands.
 
-Publishers and Subscribers
+## Controls
+* **Left Stick:** Linear velocity (Forward/Backward)
+* **Right Stick:** Angular velocity (Clockwise/Counter-clockwise)
 
-Node: joy_to_twist_node Subscribes to /joy (sensor_msgs/msg/Joy) Publishes to /robot_velocity (geometry_msgs/msg/TwistStamped) Publishes to /input_pada (geometry_msgs/msg/TwistStamped)
+---
 
-Node: joy_to_twist_sub Subscribes to /robot_velocity (geometry_msgs/msg/TwistStamped) Subscribes to /input_pada (geometry_msgs/msg/TwistStamped) It prints out the velocity and input data.
+## Nodes
 
-Node: joy_to_twist_tui Subscribes to /input_pada (geometry_msgs/msg/TwistStamped) It visualizes the position of the sticks in the terminal.
+### `joy_to_twist_node`
+The core translator node.
+* **Subscribes:** `/joy`
+* **Publishes:** `/robot_velocity`, `/input_pada`
+* **Parameters:**
+    * `joy_topic` (string, default: "joy")
+    * `input_topic` (string, default: "input_pada")
+    * `vel_topic` (string, default: "robot_velocity")
+
+### `joy_to_twist_sub`
+Console-based diagnostic tool.
+* **Subscribes:** `/robot_velocity`, `/input_pada`
+* **Parameters:**
+    * `input_topic` (string, default: "input_pada")
+    * `vel_topic` (string, default: "robot_velocity")
+
+### `joy_to_twist_tui`
+Terminal-based visualizer.
+* **Subscribes:** `/input_pada`
+
+---
+
+## Topics
+* **`/joy`** (`sensor_msgs/msg/Joy`): Raw data stream from the gamepad driver.
+* **`/input_pada`** (`geometry_msgs/msg/TwistStamped`): Translated data representing stick positions.
+* **`/robot_velocity`** (`geometry_msgs/msg/TwistStamped`): Final linear and angular velocity commands for the robot.
+
+---
+
+## Quick Start
+
+1. **Launch Joy Driver:**
+   ```bash
+   ros2 run joy joy_node

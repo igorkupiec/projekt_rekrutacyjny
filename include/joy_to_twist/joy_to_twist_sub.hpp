@@ -3,9 +3,9 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
 
-class joy_to_twist_sub: public rclcpp::Node{
+class joyToTwistSub: public rclcpp::Node{
     public:
-        joy_to_twist_sub();
+        joyToTwistSub();
     
     private:
         void callback_input(const geometry_msgs::msg::TwistStamped::SharedPtr msg);
