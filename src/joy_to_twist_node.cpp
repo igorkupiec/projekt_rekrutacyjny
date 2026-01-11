@@ -47,18 +47,18 @@ void joyToTwistNode::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr msg
 
     twist_stamped_msg.header.stamp = this->get_clock()->now();
 
-    twist_velocity.header.stamp = this->get_clock()->now();
+    //twist_velocity.header.stamp = this->get_clock()->now();
 
     if(msg->axes.size() >= 4){
       //left stick
-      twist_stamped_msg.twist.angular.x = msg->axes[0]*-1;
-      twist_stamped_msg.twist.angular.y = msg->axes[1];
+      twist_stamped_msg.twist.linear.x = msg->axes[0]*-1;
+      twist_stamped_msg.twist.linear.y = msg->axes[1];
       //right stick
-      twist_stamped_msg.twist.linear.x = msg->axes[2]*-1;
-      twist_stamped_msg.twist.linear.y = msg->axes[3]; 
+      twist_stamped_msg.twist.angular.x = msg->axes[2]*-1;
+      twist_stamped_msg.twist.angular.y = msg->axes[3]; 
 
       //robot velocity
-      double velocity = 1 * pow(abs(msg->axes[1]), 2);
+      double velocity = 1 * pow((msg->axes[1]), 2);
       if(msg->axes[1] > 0){
         twist_velocity.twist.linear.x = velocity;
       }
@@ -66,12 +66,12 @@ void joyToTwistNode::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr msg
         twist_velocity.twist.linear.x = velocity * -1;
       }
       //robot rotation velocity
-      double rvelocity = 1 * pow(abs(msg->axes[2]), 2);
+      double rvelocity = 1 * pow((msg->axes[2]), 2);
       if(msg->axes[2] < 0){
-        twist_velocity.twist.angular.z = rvelocity;
+        twist_velocity.twist.angular.z = rvelocity*-1;
       }
       else{
-        twist_velocity.twist.angular.z = rvelocity * -1;
+        twist_velocity.twist.angular.z = rvelocity;
       }
     }
     //publishes TwistStamped msg to "input_pada" topic

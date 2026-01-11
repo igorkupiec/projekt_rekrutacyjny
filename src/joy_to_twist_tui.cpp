@@ -15,10 +15,10 @@ joyToTwistTui::joyToTwistTui()
 void joyToTwistTui::callbackfunction(const geometry_msgs::msg::TwistStamped::SharedPtr msg){
     //get window size of terminal
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    double lx = msg->twist.angular.x;
-    double ly = msg->twist.angular.y; 
-    double rx = msg->twist.linear.x; 
-    double ry = msg->twist.linear.y;
+    double lx = msg->twist.linear.x;
+    double ly = msg->twist.linear.y; 
+    double rx = msg->twist.angular.x; 
+    double ry = msg->twist.angular.y;
     
     drazek_tui(lx, ly, rx, ry, w.ws_row, w.ws_col);
 }

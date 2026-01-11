@@ -35,10 +35,10 @@ void joyToTwistSub::callbackfunction()
     // print the pad input and velocity data
     RCLCPP_INFO(this->get_logger(), 
         "Drazek lewy x: '%.2f' y: '%.2f' || Drazek prawy x: '%.2f' y: '%.2f' || Predkosc: '%.2f' || Obrot: '%.2f'", 
-        last_input_msg_.twist.angular.x, 
-        last_input_msg_.twist.angular.y, 
         last_input_msg_.twist.linear.x, 
         last_input_msg_.twist.linear.y, 
+        last_input_msg_.twist.angular.x, 
+        last_input_msg_.twist.angular.y, 
         last_velocity_msg_.twist.linear.x, 
         last_velocity_msg_.twist.angular.z
     );
