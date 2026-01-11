@@ -53,6 +53,9 @@ void joyToTwistNode::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr msg
       //left stick
       twist_stamped_msg.twist.angular.x = msg->axes[0]*-1;
       twist_stamped_msg.twist.angular.y = msg->axes[1];
+      //right stick
+      twist_stamped_msg.twist.linear.x = msg->axes[2]*-1;
+      twist_stamped_msg.twist.linear.y = msg->axes[3]; 
 
       //robot velocity
       double velocity = 1 * pow(abs(msg->axes[1]), 2);
@@ -70,10 +73,6 @@ void joyToTwistNode::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr msg
       else{
         twist_velocity.twist.angular.z = rvelocity * -1;
       }
-      
-      //right stick
-      twist_stamped_msg.twist.linear.x = msg->axes[2]*-1;
-      twist_stamped_msg.twist.linear.y = msg->axes[3];        
     }
     //publishes TwistStamped msg to "input_pada" topic
     publisher_ -> publish(twist_stamped_msg);
