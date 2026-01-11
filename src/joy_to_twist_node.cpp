@@ -55,7 +55,7 @@ void joyToTwistNode::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr msg
       twist_stamped_msg.twist.angular.y = msg->axes[1];
 
       //robot velocity
-      double velocity = 1 * sqrt(abs(msg->axes[1]));
+      double velocity = 1 * pow(abs(msg->axes[1]), 2);
       if(msg->axes[1] > 0){
         twist_velocity.twist.linear.x = velocity;
       }
@@ -63,7 +63,7 @@ void joyToTwistNode::callbackfunction(const sensor_msgs::msg::Joy::SharedPtr msg
         twist_velocity.twist.linear.x = velocity * -1;
       }
       //robot rotation velocity
-      double rvelocity = 1 * sqrt(abs(msg->axes[2]));
+      double rvelocity = 1 * pow(abs(msg->axes[2]), 2);
       if(msg->axes[2] < 0){
         twist_velocity.twist.angular.z = rvelocity;
       }
